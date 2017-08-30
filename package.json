@@ -1,7 +1,7 @@
 {
-  "name": "Project Name",
+  "name": "willshawsep",
   "version": "0.0.1",
-  "description": "A review time project",
+  "description": "The night is dark and full of terrors.",
   "main": "index.js",
   "scripts": {
     "test": "mocha **/*.test.js *.test.js",
