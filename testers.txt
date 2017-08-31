@@ -1,0 +1,30 @@
+
+POST to Campus:
+
+curl -H "Content-Type: application/json" -X POST -d '{"name":"Auburn","photo":"/images/auburn.png"}' http://localhost:1337/api/campus
+
+POST to Student:
+
+curl -H "Content-Type: application/json" -X POST -d '{"name":"Frank White","email":"the@notorious.big"}' http://localhost:1337/api/student
+
+______________________
+
+PUT to Campus:
+
+curl -H "Content-Type: application/json" -X PUT -d '{"name":"Alabama","photo":"/images/alabama.png"}' http://localhost:1337/api/campus/5
+
+
+PUT to Student:
+
+curl -H "Content-Type: application/json" -X PUT -d '{"name":"Frank White","email":"theWhat@notorious.big"}' http://localhost:1337/api/student/19
+
+______________________
+
+DELETE to Campus:
+
+curl -H "Content-Type: application/json" -X DELETE -d '{"name":"Alabama","photo":"/images/alabama.png"}' http://localhost:1337/api/campus/5
+
+
+DELETE to Student:
+
+curl -H "Content-Type: application/json" -X DELETE -d '{"name":"Frank White","email":"theWhat@notorious.big"}' http://localhost:1337/api/student/19

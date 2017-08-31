@@ -4,8 +4,12 @@ const chalk = require('chalk');
 const Sequelize = require('sequelize');
 const pkg = require('../package.json');
 
+// what is this doing?
+
 const name = process.env.DATABASE_NAME || pkg.name;
 const connectionString = process.env.DATABASE_connectionString || `postgres://localhost:5432/${pkg.name}`;
+
+// _______________________
 
 console.log(chalk.yellow(`Opening database connection to ${connectionString}`));
 
@@ -19,7 +23,7 @@ const db = module.exports = new Sequelize(connectionString, {
 require('./models')
 
 // sync the db, creating it if necessary
-function sync(force=true, retries=0, maxRetries=5) {
+function sync(force=false, retries=0, maxRetries=5) {
   return db.sync({force})
   .then(ok => console.log(`Synced models to db ${connectionString}`))
   .catch(fail => {
