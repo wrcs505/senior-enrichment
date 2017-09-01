@@ -9,6 +9,7 @@ import history from './history';
 // import Home from './components/Home';
 // import specific campus + student components
 import CampusList from './components/campuses/CampusList';
+import CampusDetail from './components/campuses/CampusDetail';
 import StudentList from './components/students/StudentList';
 import StudentItem from './components/students/StudentItem';
 import StudentDetail from './components/students/StudentDetail';
@@ -16,6 +17,7 @@ import StudentDetail from './components/students/StudentDetail';
 import { fetchStudents } from './redux/students';
 import { fetchCampuses } from './redux/campuses';
 
+/*eslint-disable class-methods-use-this*/
 
 class Routes extends Component {
 
@@ -36,8 +38,8 @@ class Routes extends Component {
               StudentList} />
             <Route path="/student/:id" component={StudentDetail} />
             <Route exact path="/campus" component={CampusList} />
-            {/*<Route path="/campus/:id" component={CampusDetail} />
-            <Route component={Home} /> */}
+            <Route path="/campus/:id" component={CampusDetail} />
+            {/*<Route component={Home} /> */}
           </Switch>
         </Root>
       </Router>

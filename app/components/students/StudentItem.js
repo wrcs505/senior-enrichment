@@ -6,18 +6,19 @@ import { removeStudent } from '../../redux/students';
 import { removeCampus } from '../../redux/campuses';
 
 
-class StudentItem extends React.Component {
+export default class StudentItem extends React.Component {
 
   constructor (props) {
     super(props);
-    // this.removeStudentCallback = this.removeStudentCallback.bind(this);
+    this.removeStudentCallback = this.removeStudentCallback.bind(this);
   }
 
   render () {
-    console.log('THE PROPS: ',this.props)
+    console.log('THE SI PROPS: ',this.props)
     const { student } = this.props;
     // console.log('THE STUDENT: ',student)
     // console.log('THE SECOND PROPS: ',this.props)
+    if (!student) return null
     return (
       <div className="student-item">
         <NavLink
@@ -48,8 +49,8 @@ class StudentItem extends React.Component {
 
 /* -----------------    CONTAINER     ------------------ */
 
-const mapState = ({ student }, ownProps) => ({student})
+// const mapState = ({ student }, ownProps) => ({student})
 
-const mapDispatch = { removeStudent, removeCampus };
+// const mapDispatch = { removeStudent, removeCampus };
 
-export default connect(mapState, mapDispatch)(StudentItem);
+// export default connect(mapState, mapDispatch)(StudentItem);

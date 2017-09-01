@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import StudentItem from './StudentItem';
 import CampusItem from '../campuses/CampusItem';
-import { updateStudent, fetchStudent } from '../../redux/students';
+import { updateStudent, fetchStudents } from '../../redux/students';
 
 class StudentDetail extends React.Component {
   constructor(props) {
@@ -13,8 +13,9 @@ class StudentDetail extends React.Component {
   }
 
   render() {
-    const { student } = this.props;
-    console.log('THE DETAIL PROPS: ',this.props)
+    const { student, campuses } = this.props;
+    // console.log
+    console.log('THE Student DETAIL PROPS: ',this.props)
     // if (!user) return <div />  // the user id is invalid or data isn't loaded yet
     // const authorized = currentUser && (currentUser.isAdmin || currentUser.id === user.id);
     return (
@@ -26,8 +27,7 @@ class StudentDetail extends React.Component {
           </div>
           <ul className="list-group">
             {
-
-              <form className="list-group-item story-item" onSubmit={this.onSubmit}>
+              <form className="list-group-item story-item" onSubmit={this.onSubmit} name="updater">
                 <input
                   name="name"
                   type="text"
@@ -42,13 +42,15 @@ class StudentDetail extends React.Component {
                   required
                   placeholder="Assign Student Email"
                 />
-                <input
-                  name="campus"
-                  type="text"
-                  className="form-like"
-                  required
-                  placeholder="Assign Campus"
-                />
+                <select form="updater" name="campUp">
+                  {
+                    campuses.map(campus => (
+                      <option key={campus.id} value={campus.id}>
+                        {campus.name}
+                      </option>
+                    ))
+                  }
+                </select>
                 <button type="submit" className="btn btn-warning btn-xs">
                   <span className="glyphicon glyphicon-plus">Submit Info</span>
                 </button>
@@ -66,32 +68,54 @@ class StudentDetail extends React.Component {
   }
 
   onSubmit(event) {
+    console.log('event target: ', event.target);
     event.preventDefault();
     const { updateStudent } = this.props;
     const student = {
       name: event.target.name.value,
-      campus_Id: event.target.campus.value,
+      campus_Id: event.target.campUp.selected,
       email: event.target.email.value
     };
-    updateStudent(student);
+    updateStudent(this.props.student.id, student);
     event.target.name.value = '';
-    event.target.campus.value = '';
+    // event.target.camp.value = '';
     event.target.email.value = '';
   }
 }
 
 
   /* -----------------    CONTAINER     ------------------ */
-const mapState = ({ students }, ownProps) => // ({students})
-  {
-  const paramId = Number(ownProps.match.params.id);
+// const mapState = ({ students }, ownProps) => // ({students})
+//   {
+//   const paramId = Number(ownProps.match.params.id);
+//   return {
+//     student: _.find(students, student => student.id === paramId),
+//     students
+//   }
+// };
+
+const mapState = function(state,ownProps) {
+
+  const student = state.students.find(aStudent => aStudent.id === +ownProps.match.params.id)
+  const campuses = state.campuses;
+
   return {
-    student: _.find(students, student => student.id === paramId),
-    students
+    student,
+    campuses,
+    state
   }
-};
+}
 
 
-const mapDispatch = { updateStudent, fetchStudent };
+const mapDispatch = function(dispatch, ownProps) {
+
+  console.log('The SD STUDENT STATE + ID: ', ownProps.student)
+  return {
+    updateStudent: function(id, student) {
+      dispatch(updateStudent(id, student));
+    }
+  }
+
+}
 
 export default connect(mapState, mapDispatch)(StudentDetail);

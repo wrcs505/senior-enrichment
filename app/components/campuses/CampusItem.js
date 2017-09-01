@@ -10,7 +10,7 @@ class CampusItem extends React.Component {
 
   constructor (props) {
     super(props);
-    // this.removeStudentCallback = this.removeStudentCallback.bind(this);
+    this.removeCampusCallback = this.removeCampusCallback.bind(this);
   }
 
   render () {
@@ -18,6 +18,7 @@ class CampusItem extends React.Component {
     const { campus } = this.props;
     // console.log('THE STUDENT: ',campus)
     // console.log('THE SECOND PROPS: ',this.props)
+    if (!campus) return null
     return (
       <div className="campus-item">
         <NavLink
@@ -32,9 +33,10 @@ class CampusItem extends React.Component {
           <span>{campus.photo}</span>
         </h5>*/}
         <div>
-          <img src={`/../../images/${campus.name}.png`} />
+          {/*<img src={`/../../images/${campus.name}.png`} />*/}
+          <img src={ campus.photo } />
         </div>
-        <button className="btn btn-default" onClick={this.removeStudentCallback}>
+        <button className="btn btn-default" onClick={this.removeCampusCallback}>
           <span className="glyphicon glyphicon-remove">X</span>
         </button>
       </div>
@@ -42,17 +44,26 @@ class CampusItem extends React.Component {
   }
 
 
-  removeStudentCallback (event) {
-    const { removeStudent, removeCampus, student, campus } = this.props;
+  removeCampusCallback (event) {
+    const { campus } = this.props;
+    console.log(campus.id);
     event.stopPropagation();
-    removeStudent(campus.id);
+    removeCampus(campus.id);
   }
 }
 
 /* -----------------    CONTAINER     ------------------ */
 
-const mapState = ({ campuses }, ownProps) => ({campuses})
+const mapState = function(state,ownProps) {
+  return state
+}
 
-const mapDispatch = { removeStudent, removeCampus };
+const mapDispatch = function(dispatch, ownProps) {
+  return {
+    removeCampus: function(id) {
+      dispatch(removeCampus(id))
+    }
+  }
+};
 
 export default connect(mapState, mapDispatch)(CampusItem);

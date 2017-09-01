@@ -10,6 +10,9 @@ import { addUser } from '../../redux/users';
 import UserItem from './UserItem';
 */
 
+// Make this funtional?
+// Is an initial state needed?
+
 class CampusList extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +22,7 @@ class CampusList extends Component {
     photo: ''
   };
 
-    // this.filterUser = this.filterUser.bind(this);
+    this.filterCampus = this.filterCampus.bind(this);
     // this.renderUserSearch = this.renderUserSearch.bind(this);
     // this.renderNewUserWidget = this.renderNewUserWidget.bind(this);
     // this.submit = this.submit.bind(this);
@@ -46,6 +49,7 @@ class CampusList extends Component {
           */}
           {
             this.props.campuses
+            .filter(this.filterCampus)
             .map(campus => <CampusItem campus={campus} key={campus.id} photo={campus.photo}/>)
           }
 
@@ -55,15 +59,15 @@ class CampusList extends Component {
     );
   }
 
-  // filterUser(campus) {
-  //   const nameMatch  = new RegExp(this.state.name, 'i');
-  //   const emailMatch = new RegExp(this.state.email, 'i');
-  //   const phoneMatch = new RegExp(this.state.phone, 'i');
+  filterCampus(campus) {
+    const nameMatch  = new RegExp(this.state.name, 'i');
+    const emailMatch = new RegExp(this.state.email, 'i');
+    const phoneMatch = new RegExp(this.state.phone, 'i');
 
-  //   return nameMatch.test(campus.name)
-  //       && emailMatch.test(campus.email)
-  //       && phoneMatch.test(campus.phone);
-  // }
+    return nameMatch.test(campus.name)
+        && emailMatch.test(campus.email)
+        && phoneMatch.test(campus.phone);
+  }
 
   // submit(event) {
   //   event.preventDefault();
@@ -86,8 +90,10 @@ const mapState = ({ campuses, currentStudent }) => (
   //   users
   // }
 
-  { campuses, currentStudent }
-);
+  {
+    campuses,
+    currentStudent
+  });
 
 const mapDispatch = { addStudent };
 

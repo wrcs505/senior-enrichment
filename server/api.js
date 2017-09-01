@@ -74,7 +74,7 @@ api.put('/student/:studentId', function (req, res, next) {
 
   Student.findById(studentId)
 		.then(student => student.update(req.body))
-		.then(res.sendStatus(204))
+		.then(student => res.json(student))
     .catch(next);
 });
 

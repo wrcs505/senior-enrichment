@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { addStudent } from '../../redux/students';
+import { addStudent, fetchStudent } from '../../redux/students';
 import StudentItem from './StudentItem';
 /*
 Refactor to show students:
@@ -14,19 +14,19 @@ class StudentList extends Component {
   constructor(props) {
     super(props);
 
-  this.state = {
-    name: '',
-    email: ''
-  };
+  // this.state = {
+  //   name: '',
+  //   email: ''
+  // };
 
-    // this.filterUser = this.filterUser.bind(this);
+    // this.filterStudent = this.filterStudent.bind(this);
     // this.renderUserSearch = this.renderUserSearch.bind(this);
     // this.renderNewUserWidget = this.renderNewUserWidget.bind(this);
     // this.submit = this.submit.bind(this);
   }
 
   render() {
-    console.log('THE SL PROPS: ',this.props.students)
+    console.log('THE SL PROPS: ',this.props)
     return (
       <div className="container">
         {/*
@@ -46,10 +46,11 @@ class StudentList extends Component {
           */}
           {
             this.props.students
-            // .map(student => <StudentItem student={student} key={student.id} />)
-            .map(function(student) {
-              console.log('Mapped student: ', student)
-            })
+            // .filter(this.filterStudent)
+            .map(student => <StudentItem student={student} key={student.id} />)
+            // .map(function(student) {
+            //   console.log('Mapped student: ', student)
+            // })
           }
 
 
@@ -57,15 +58,15 @@ class StudentList extends Component {
       </div>
     );
   }
-
-  // filterUser(story) {
+  // What is this filter doing?
+  // filterStudent(student) {
   //   const nameMatch  = new RegExp(this.state.name, 'i');
   //   const emailMatch = new RegExp(this.state.email, 'i');
   //   const phoneMatch = new RegExp(this.state.phone, 'i');
 
-  //   return nameMatch.test(story.name)
-  //       && emailMatch.test(story.email)
-  //       && phoneMatch.test(story.phone);
+  //   return nameMatch.test(student.name)
+  //       && emailMatch.test(student.email)
+  //       && phoneMatch.test(student.phone);
   // }
 
   // submit(event) {
@@ -83,15 +84,17 @@ class StudentList extends Component {
 
 }
 
-const mapState = ({ students }) => (
+const mapState = function(state) {
   // {
   //   isAdmin: currentUser && currentUser.isAdmin,
   //   users
   // }
   // console.log('In MAPPER: ',students)
-  { students: students }
-);
+  console.log('In MAPPER: ', state)
+  return state
+  }
 
-const mapDispatch = { addStudent };
+
+const mapDispatch = { addStudent, fetchStudent };
 
 export default connect(mapState, mapDispatch)(StudentList);
