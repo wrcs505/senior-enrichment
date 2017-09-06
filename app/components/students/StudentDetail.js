@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import StudentItem from './StudentItem';
 import CampusItem from '../campuses/CampusItem';
-import { updateStudent, fetchStudent } from '../../redux/students';
+import { updateStudent, fetchStudent, removeStudent } from '../../redux/students';
 import { fetchCampuses } from '../../redux/campuses';
 
 class StudentDetail extends React.Component {
@@ -19,6 +20,7 @@ class StudentDetail extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleSelectChange = this.handleSelectChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.removeStudentCallback = this.removeStudentCallback.bind(this);
   }
 
   // componentDidMount () {
@@ -38,6 +40,14 @@ class StudentDetail extends React.Component {
   //     campus: newProps.campus
   //   });
   // }
+  removeStudentCallback (event) {
+    const { removeStudent, removeCampus, student, campus } = this.props;
+    // console.log("REMOVE STUDENT: ",removeStudent)
+    console.log("REMOVE CALLBACK PROPS: ",Number(this.props.match.params.id))
+    event.stopPropagation();
+    removeStudent(Number(this.props.match.params.id));
+    alert("Record Deleted")
+  }
 
   handleSelectChange(event) {
     this.setState({
@@ -84,7 +94,7 @@ class StudentDetail extends React.Component {
 
   render() {
     // console.log("111NEW STUDENT TEST: ",this.props.students)
-    // console.log("111NEW CAMPUSES TEST: ",this.props.campuses)
+    console.log("111NEW CAMPUSES TEST: ",this.props.campuses)
     // console.log('111THE Student DETAIL STATE: ',this.state)
     // console.log('111THE Student DETAIL PROPS: ',this.props)
     var firstId = Number(this.props.match.params.id)
@@ -94,14 +104,15 @@ class StudentDetail extends React.Component {
       return (studentObj.id === firstId)
     })
     var newStudent = student[0]
-    console.log("111NEW STUDENT: ",student[0])
+    console.log("111NEW STUDENT: ",newStudent)
+    const campuses = this.props.campuses;
 
     // var secondId = student.campusId;
-    var campuses = this.props.campuses
-    // .filter(function(campusObj) {
-    //   console.log("CAMPUS OBJ ID: ",campusObj.id,"CALCED ID: ",secondId)
-    //   return (campusObj.id === secondId)
-    // })
+    var newCampus = this.props.campuses
+    .filter(function(campusObj) {
+      console.log("CAMPUS OBJ ID: ",campusObj.id,"CALCED ID: ",newStudent.campusId)
+      return (campusObj.id === Number(newStudent.campusId))
+    })
 
 
 
@@ -116,7 +127,7 @@ class StudentDetail extends React.Component {
     if (!campuses) return <div />
     return (
       <div className="container">
-        <StudentItem student={newStudent} campus={campuses}/>
+        <StudentItem student={newStudent} campus={newCampus}/>
         <div className="panel panel-warning">
           <div className="panel-heading">
             <h2 className="panel-title large-font">Student Info</h2>
@@ -132,7 +143,7 @@ class StudentDetail extends React.Component {
                   name="name"
                   type="text"
                   // className="form-like"
-                  required
+                  // required
                   placeholder="Edit Student Name"
                   value={this.state.name}
                   onChange={this.handleInputChange}
@@ -141,7 +152,7 @@ class StudentDetail extends React.Component {
                   name="email"
                   type="text"
                   // className="form-like"
-                  required
+                  // required
                   placeholder="Edit Student Email"
                   value={this.state.email}
                   onChange={this.handleInputChange}
@@ -172,6 +183,15 @@ class StudentDetail extends React.Component {
               // students
               // .filter(story => story.author_id === user.id)
               // .map(story => <StoryItem story={story} key={story.id} />)
+              <NavLink to={`/student`}>
+                <button className="btn btn-default"
+                onClick={
+                  // removeStudent(student.id)
+                  this.removeStudentCallback
+                }>
+                  <span className="glyphicon glyphicon-remove">Delete Student</span>
+                </button>
+              </NavLink>
             }
           </ul>
         </div>
@@ -231,6 +251,6 @@ const mapState = function(state,ownProps) {
 
 // }
 
-const mapDispatch = { updateStudent, fetchStudent, fetchCampuses };
+const mapDispatch = { updateStudent, fetchStudent, fetchCampuses, removeStudent };
 
 export default connect(mapState, mapDispatch)(StudentDetail);

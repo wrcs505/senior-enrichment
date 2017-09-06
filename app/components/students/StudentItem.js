@@ -10,12 +10,12 @@ export default class StudentItem extends React.Component {
 
   constructor (props) {
     super(props);
-    this.removeStudentCallback = this.removeStudentCallback.bind(this);
+    // this.removeStudentCallback = this.removeStudentCallback.bind(this);
   }
 
   render () {
     console.log('THE SI PROPS: ',this.props)
-    console.log('THE SI Campus: ',this.props.campus,this.props.campus)
+    console.log('THE SI Campus: ',this.props.campus)
     const { student } = this.props;
     // console.log('THE ORIGINAL STUDENT: ',student)
     var campus = ""
@@ -24,7 +24,7 @@ export default class StudentItem extends React.Component {
     } else {
       campus = 'No Campus Assigned'
     }
-
+    console.log('THE CAMPUS: ',campus)
     // console.log('THE STUDENT: ',student)
     // console.log('THE STATE: ',this.state)
     if (!student) return null
@@ -46,19 +46,24 @@ export default class StudentItem extends React.Component {
         <h5 className="tucked">
           <span>{campus}</span>
         </h5>
-        <button className="btn btn-default" onClick={this.removeStudentCallback}>
+        {/*<button className="btn btn-default"
+        onClick={
+          // removeStudent(student.id)
+          this.removeStudentCallback
+        }>
           <span className="glyphicon glyphicon-remove">X</span>
-        </button>
+      </button>*/}
       </div>
     );
   }
 
 
-  removeStudentCallback (event) {
-    const { removeStudent, removeCampus, student, campus } = this.props;
-    event.stopPropagation();
-    removeStudent(student.id);
-  }
+  // removeStudentCallback (event) {
+  //   // const { removeStudent, removeCampus, student, campus } = this.props;
+  //   console.log("REMOVE STUDENT: ",removeStudent)
+  //   event.stopPropagation();
+  //   removeStudent(this.props.student.id);
+  // }
 }
 
 /* -----------------    CONTAINER     ------------------ */
