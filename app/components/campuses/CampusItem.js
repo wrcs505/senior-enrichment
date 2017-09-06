@@ -46,7 +46,7 @@ class CampusItem extends React.Component {
 
   removeCampusCallback (event) {
     const { campus } = this.props;
-    console.log(campus.id);
+    // console.log(campus.id);
     event.stopPropagation();
     removeCampus(campus.id);
   }

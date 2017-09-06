@@ -11,8 +11,10 @@ const Campus = require('./campus');
 // Cascade and hooks options
 
 Campus.hasMany(Student, {
-  // onDelete: 'cascade',
-  // hooks: true
+	// as: 'campus_name',
+  onDelete: 'cascade',
+	// hooks: true
+  // include: 'name'
 });
 
 Student.belongsTo(Campus)

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { addStudent, fetchStudent } from '../../redux/students';
+import { addStudent, fetchStudent } from '../../redux/students'
+import { fetchCampuses } from '../../redux/campuses';
 import StudentItem from './StudentItem';
 /*
 Refactor to show students:
@@ -27,6 +28,7 @@ class StudentList extends Component {
 
   render() {
     console.log('THE SL PROPS: ',this.props)
+    // console.log('THE SL STATE: ', this.state)
     return (
       <div className="container">
         {/*
@@ -47,7 +49,21 @@ class StudentList extends Component {
           {
             this.props.students
             // .filter(this.filterStudent)
-            .map(student => <StudentItem student={student} key={student.id} />)
+            .map(student => <StudentItem
+              student={student}
+              key={student.id}
+              campus={
+                this.props.campuses.filter(function(campusObj) {
+                  return (campusObj.id === student.campusId)
+                  // if (campusObj.id === student.campusId) {
+                  //   return campusObj.name
+                  // }
+                  // else {
+                  //   return "No Campus Assigned"
+                  // }
+                })
+              }
+              />)
             // .map(function(student) {
             //   console.log('Mapped student: ', student)
             // })
@@ -89,12 +105,15 @@ const mapState = function(state) {
   //   isAdmin: currentUser && currentUser.isAdmin,
   //   users
   // }
+  // {
+  //   campuses: state.campuses
+  // }
   // console.log('In MAPPER: ',students)
   console.log('In MAPPER: ', state)
   return state
   }
 
 
-const mapDispatch = { addStudent, fetchStudent };
+const mapDispatch = { addStudent, fetchStudent, fetchCampuses };
 
 export default connect(mapState, mapDispatch)(StudentList);
